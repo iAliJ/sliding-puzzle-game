@@ -8,18 +8,19 @@
     <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
-    <div class="container text-center">
+    <div class="container m-5 text-center">
         <div class="row">
             <!-- Setting left panel -->
-            <div class="pzSettingsPpanel p-3 col-4">
+            <div class="pzSettingsPpanel p-3 col-md-4">
                 <div class="row">
+                    <!-- New game settings -->
                     <div class="col">
                         <form>
-                            <div class="row">
+                            <div class="pzGameSettings row mb-3">
                                 <button type="submit" class="btn btn-primary">New Game</button>
                             </div>
-                            <div class="row">
-                                <select name="form-select" id="tiles-number">
+                            <div class="row mb-3">
+                                <select class="mb-2" name="form-select" id="tiles-number">
                                     <option value="3x3">3x3</option>
                                     <option value="4x4">4x4</option>
                                 </select>
@@ -38,34 +39,30 @@
                 </div>
             </div>
             <!-- Game canvas -->
-            <div class="pzGameCanvas col-8">
+            <div class="pzGameCanvas col-md-8">
                 <div class="row">
                     <h1>Sliding Puzzle Game</h1>
                 </div>
                 <div class="pzRoundData row">
-                    <div class="col">
-                        <h3 class="pzTimer">00:00</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="pzCurrentPlayer">Current Player: Player 1</h3>
-                    </div>
+                    <h3 class="pzTimer">00:00</h3>
+                    <h3 class="pzCurrentPlayer">Current Player: Player 1</h3>
                 </div>
-                <div class="pzGameTiles row">
+                <div class="pzGameTiles row p-5">
                     <div class="col">
-                        <div class="row">
-                            <div class="pzTile col">0</div>
-                            <div class="pzTile col">1</div>
-                            <div class="pzTile col">2</div>
+                        <div class="row d-flex justify-content-center">
+                            <div class="pzTile col" data-column="0" data-row="0">0</div>
+                            <div class="pzTile col" data-column="0" data-row="1">1</div>
+                            <div class="pzTile col" data-column="0" data-row="2">2</div>
                         </div>
-                        <div class="row">
-                            <div class="pzTile col">3</div>
-                            <div class="pzTile col">4</div>
-                            <div class="pzTile col">5</div>
+                        <div class="row d-flex justify-content-center">
+                            <div class="pzTile col" data-column="1" data-row="0">3</div>
+                            <div class="pzTile col" data-column="1" data-row="1">4</div>
+                            <div class="pzTile col" data-column="1" data-row="2">5</div>
                         </div>
-                        <div class="row">
-                            <div class="pzTile col">6</div>
-                            <div class="pzTile col">7</div>
-                            <div class="pzTile col">8</div>
+                        <div class="row d-flex justify-content-center">
+                            <div class="pzTile col" data-column="2" data-row="0">6</div>
+                            <div class="pzTile col" data-column="2" data-row="1">7</div>
+                            <div class="pzTile col" data-column="2" data-row="2"></div>
                         </div>
                     </div>
                 </div>

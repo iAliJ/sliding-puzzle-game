@@ -1,4 +1,22 @@
-.container > .row > div{
+/**
+colors:
+    Dark color: rgb(29, 35, 42)
+    Light color for text: rgb(166, 173, 186)
+    Green color: rgb(31, 178, 166)
+**/
+:root {
+    --dark-background: rgb(29, 35, 42);
+    --light-text: rgb(166, 173, 186);
+    --dark-text: rgb(29, 35, 42);
+    --secondary-color: rgb(31, 178, 166);
+}
+
+body {
+    background-color: var(--dark-background);
+    color: var(--light-text);
+}
+
+.bd-colid {
     border: 1px black solid;
 }
 
@@ -6,11 +24,24 @@
     padding: 10px;
 }
 
-.pzGameTiles{
+.pzGameTiles {
     padding: 10px;
 }
 
-.pzTile{
-    padding: 10px;
+.pzTile {
+    margin: 5px;
     border: 1px black solid;
+    border-radius: 20px;
+    max-width: 150px;
+    background-color: var(--secondary-color);
+    color: var(--dark-text);
+    text-align: center;
+}
+
+.pzGameTiles .row {
+    height: 150px;
+}
+
+.pzGameSettings {
+    margin-top: 150px;
 }
