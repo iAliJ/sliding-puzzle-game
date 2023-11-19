@@ -11,7 +11,7 @@ A sliding puzzle game for SEI program
 
 ## Difficulty
 * Change the roundtimer
-* Select tiles: 3X3 or 6X6
+* Select tiles: 3X3 or 4X4
 
 ## Game controls
 * When the user click on a tile it zooms in then user gets a prompt to rotate the tile
