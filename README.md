@@ -39,3 +39,6 @@ A sliding puzzle game for SEI program
 
 ## Win condition for match
 * Highest points after 3 rounds
+
+## Wirefame
+![game wireframe](/wireframe/wireframe.png)
