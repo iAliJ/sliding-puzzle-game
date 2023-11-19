@@ -41,6 +41,12 @@ function drawBoard() {
     // shuffle the solution array
     shuffleArray();
     // assign the array elements to each tile
+    let tileIndex = 0;
+    solutionArray.forEach(function(element){
+        let currentTile = document.querySelector(`.pzTile[data-position="${tileIndex}"]`);
+        currentTile.innerText = element;
+        tileIndex++;
+    });
 }
 
 // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
