@@ -1,0 +1,16 @@
+.container > .row > div{
+    border: 1px black solid;
+}
+
+.pzGameCanvas {
+    padding: 10px;
+}
+
+.pzGameTiles{
+    padding: 10px;
+}
+
+.pzTile{
+    padding: 10px;
+    border: 1px black solid;
+}
