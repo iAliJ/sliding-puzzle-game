@@ -46,7 +46,8 @@ function drawBoard() {
     solutionArray.forEach(function(element, tileIndex){
         let currentTile = document.querySelector(`.pzTile[data-currentPosition="${tileIndex}"]`);
         currentTile.innerText = element[0];
-        currentTile.dataset.currentPosition = element[0];
+        currentTile.dataset.currentPosition = tileIndex;
+        currentTile.dataset.tileid = element[0];
     });
 }
 
@@ -68,10 +69,12 @@ function shuffleArray() {
 }
 
 function moveTile(tile) {
-    // get the current tile position
+    // get the current tile position and id
     const currentPosition = tile.dataset.currentPosition;
-    console.log(`Moving ${currentPosition}`);
-    // check if the selected tile is a valid tile
+    console.log(tile.dataset);
+    const tileId = tile.dataset.tileid;
+    console.log(`Moving ${tileId} from ${currentPosition}`);
+    // check if the selected tile is a valid tile by matching the tile id and position with the solution array
         // if true, move current tile to an empty position
 
 }
