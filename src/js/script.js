@@ -2,12 +2,12 @@
 let newGameBtn = document.querySelector('#new-game');
 newGameBtn.addEventListener('click', newGame);
 
-// solution array = [number, correct position]
+// solution array = [id, correct position]
 // I might switch this to JSON file
 const solutionArray = [
-    [1, 0], [2, 1], [3, 2], 
-    [4, 3], [5, 4], [6, 5], 
-    [7, 6], [8, 7]
+    [0, 0], [1, 1], [2, 2], 
+    [3, 3], [4, 4], [5, 5], 
+    [6, 6], [7, 7]
 ];
 
 // Index of an empty tile
@@ -40,30 +40,37 @@ function newGame(e) {
 function drawBoard() {
     // shuffle the solution array
     shuffleArray();
+    // Initialize the tiles
+    initiateTiles();
     // assign the array elements to each tile
-    let tileIndex = 0;
-    solutionArray.forEach(function(element){
-        let currentTile = document.querySelector(`.pzTile[data-position="${tileIndex}"]`);
-        currentTile.innerText = element;
-        tileIndex++;
+    solutionArray.forEach(function(element, tileIndex){
+        let currentTile = document.querySelector(`.pzTile[data-currentPosition="${tileIndex}"]`);
+        currentTile.innerText = element[0];
+        currentTile.dataset.currentPosition = element[0];
+    });
+}
+
+function initiateTiles() {
+    document.querySelectorAll('.pzTile').forEach(function(tile, i){
+        tile.dataset.currentposition = i;        
     });
 }
 
 // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 function shuffleArray() {
-    for (var i = solutionArray.length - 1; i > 0; i--) {
-        // Get a randm index
+    for (let i = solutionArray.length - 1; i > 0; i--) {
+        // Get a randm index, then swap current position with a random elment
         var j = Math.floor(Math.random() * (i + 1));
         var temp = solutionArray[i];
         solutionArray[i] = solutionArray[j];
         solutionArray[j] = temp;
     }
-    console.log(solutionArray)
 }
 
 function moveTile(tile) {
     // get the current tile position
-    console.log(tile.innerText);
+    const currentPosition = tile.dataset.currentPosition;
+    console.log(`Moving ${currentPosition}`);
     // check if the selected tile is a valid tile
         // if true, move current tile to an empty position
 
@@ -71,5 +78,6 @@ function moveTile(tile) {
 
 function isTileValid(position) {
     // check if adjacent positions are empty
+
         // if true, return true
 }

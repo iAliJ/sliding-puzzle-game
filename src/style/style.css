@@ -36,10 +36,11 @@ body {
     background-color: var(--secondary-color);
     color: var(--dark-text);
     text-align: center;
+    aspect-ratio: 1;
 }
 
 .pzGameTiles .row {
-    height: 150px;
+    min-height: 150px;
 }
 
 .pzGameSettings {
