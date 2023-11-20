@@ -5,10 +5,23 @@ newGameBtn.addEventListener('click', newGame);
 // solution array = [id, correct position]
 // I might switch this to JSON file
 const solutionArray = [
-    [0, 0], [1, 1], [2, 2], 
-    [3, 3], [4, 4], [5, 5], 
-    [6, 6], [7, 7]
+    ['0', 0], ['1', 1], ['2', 2], 
+    ['3', 3], ['4', 4], ['5', 5], 
+    ['6', 6], ['7', 7]
 ];
+
+// Array to store positions and adjacent tiles
+let legalMoves=[
+    [1,3], //0
+    [0,2,4], //1
+    [1,5], //2
+    [0,4,6], //3
+    [1,3,5,7], //4
+    [2,4,8], //5
+    [3,7], //6
+    [4,6,8], //7
+    [5,7] //8
+]
 
 // Index of an empty tile
 let emptyTile = 8;
@@ -19,7 +32,6 @@ let selectedTile = document.querySelectorAll('.pzTile').forEach(function(tile) {
         moveTile(tile);
     });
 });
-
 
 function newGame(e) {
     e.preventDefault();
@@ -32,14 +44,14 @@ function newGame(e) {
     drawBoard();
 
     // reset all variables to default values
-    emptyTile = 0;
+    emptyTile = 8;
 
     // Start the game
 }
 
 function drawBoard() {
     // shuffle the solution array
-    shuffleArray();
+    shuffle();
     // Initialize the tiles
     initiateTiles();
     // assign the array elements to each tile
@@ -58,7 +70,7 @@ function initiateTiles() {
 }
 
 // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-function shuffleArray() {
+function shuffle() {
     for (let i = solutionArray.length - 1; i > 0; i--) {
         // Get a randm index, then swap current position with a random elment
         var j = Math.floor(Math.random() * (i + 1));
@@ -71,16 +83,30 @@ function shuffleArray() {
 function moveTile(tile) {
     // get the current tile position and id
     const currentPosition = tile.dataset.currentPosition;
-    console.log(tile.dataset);
     const tileId = tile.dataset.tileid;
-    console.log(`Moving ${tileId} from ${currentPosition}`);
     // check if the selected tile is a valid tile by matching the tile id and position with the solution array
+    let isMoveValid = ValidateMove(tileId, currentPosition);
         // if true, move current tile to an empty position
+    if(isMoveValid) {
+        console.log("Valid move");
+    }
+    else {
+        console.log("Cannot move an empty tile");
+    }
 
 }
 
-function isTileValid(position) {
-    // check if adjacent positions are empty
-
-        // if true, return true
+function ValidateMove(tileId, currentPosition) {
+    // if selected tile has empty tile id return false
+    if(tileId == '8') {
+        return false;
+    }
+    else {
+        // check if position of empty tile is in the legalMoves
+        let possibleMoves = legalMoves[currentPosition];
+        if(possibleMoves.indexOf(emptyTile) != -1) {
+            return true;
+        }
+    }
+    // check surrounding if any empty tile
 }
