@@ -10,6 +10,16 @@ const solutionArray = [
     ['6', 6], ['7', 7]
 ];
 
+const solutionObj = [
+    {'0': 0},
+    {'1': 1},
+    {'2': 2},
+    {'3': 3},
+    {'4': 4},
+    {'5': 5},
+    {'6': 6},
+];
+
 // Array to store positions and adjacent tiles
 let legalMoves=[
     [1,3], //0
@@ -86,14 +96,36 @@ function moveTile(tile) {
     const tileId = tile.dataset.tileid;
     // check if the selected tile is a valid tile by matching the tile id and position with the solution array
     let isMoveValid = ValidateMove(tileId, currentPosition);
-        // if true, move current tile to an empty position
+        // if true, move current tile to an empty position by swapping them
     if(isMoveValid) {
         console.log("Valid move");
+        swapTile(tile, tileId, currentPosition);
     }
     else {
         console.log("Cannot move an empty tile");
     }
+}
 
+function swapTile(tile, tileId, tilePosition) {
+    // swap the position of empty tile and selected tile by using temp variable
+    let temp = emptyTile;
+    emptyTile = tilePosition;
+    tilePosition = temp;
+    console.log(
+        `id: ${tileId}\n
+        new position: ${tilePosition}`
+    );
+    // update the solutionarray and index of empty tile
+    updateTilePosition(tileId, tilePosition);
+    // update the HTML
+}
+
+function updateTilePosition(id, position) {
+    // get the sub array
+    // look for the id in the shuffled array
+    solutionArray[id][1] = position;
+    console.log(solutionArray[id][1]);
+    console.log(solutionArray);
 }
 
 function ValidateMove(tileId, currentPosition) {
@@ -102,11 +134,10 @@ function ValidateMove(tileId, currentPosition) {
         return false;
     }
     else {
-        // check if position of empty tile is in the legalMoves
+        // check if position of empty tile is surrounding the selected tile
         let possibleMoves = legalMoves[currentPosition];
         if(possibleMoves.indexOf(emptyTile) != -1) {
             return true;
         }
     }
-    // check surrounding if any empty tile
 }
