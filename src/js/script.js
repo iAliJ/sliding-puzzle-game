@@ -115,7 +115,6 @@ function shuffle() {
     tilesArray.forEach(function(tileObj, index) {
         tileObj.position = index;
     });
-    console.log(tilesArray);
 }
 
 function moveTile(tile) {
@@ -130,7 +129,7 @@ function moveTile(tile) {
         swapTile(tile, tileId, currentPosition);
     }
     else {
-        console.log("Cannot move an empty tile");
+        console.log("invalid move");
     }
 }
 
@@ -168,12 +167,14 @@ function updateTilePosition(tileId, newPosition) {
 function ValidateMove(tileId, currentPosition) {
     // if selected tile has empty tile id return false
     if(tileId === 'empty') {
+        console.log('cannot move an empty tile');
         return false;
     }
     else {
-        // check if position of empty tile is surrounding the selected tile
+        // if the tile is not empty check if position of empty tile is surrounding the selected tile
+        // if that is true, it is a valid move
         let possibleMoves = legalMoves[currentPosition];
-        if(possibleMoves.indexOf(emptyTile) != -1) {
+        if(possibleMoves.indexOf(getEmptyTilePosition() != -1)) {
             return true;
         }
     }
