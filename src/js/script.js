@@ -45,6 +45,7 @@ function getEmptyTilePosition() {
 function setEmptyTilePosition(position) {
     for(let i = 0; i < tilesArray.length; i++) {
         if (tilesArray[i].id === 'empty') {
+            console.log(`from setEmptyTilePosition: ${typeof position}`);
             tilesArray[i].position = position;
             return position;
         }
@@ -137,7 +138,8 @@ function swapTile(tile, tileId, tilePosition) {
     // swap the position of empty tile and selected tile by using temp variable
     // and update the the index of empty tile
     let temp = emptyTile;
-    emptyTile = setEmptyTilePosition(tilePosition);
+    console.log(`inside swapTile ${typeof tilePosition}`);
+    emptyTile = setEmptyTilePosition(parseInt(tilePosition));
     tilePosition = temp;
     // console.log(`selected tile moved to ${tilePosition}`);
     // update the current tile with new position
@@ -171,11 +173,20 @@ function ValidateMove(tileId, currentPosition) {
         return false;
     }
     else {
+        console.log("Inside else");
         // if the tile is not empty check if position of empty tile is surrounding the selected tile
         // if that is true, it is a valid move
         let possibleMoves = legalMoves[currentPosition];
-        if(possibleMoves.indexOf(getEmptyTilePosition() != -1)) {
+        emptyTile = getEmptyTilePosition();
+        console.log(typeof emptyTile);
+        // console.log("Possible moves:");
+        // console.log(possibleMoves);
+        // console.log(`position of empty tile: ${emptyTile}`);
+        // console.log(possibleMoves.indexOf(emptyTile));
+
+        if(possibleMoves.indexOf(emptyTile) != -1) {
             return true;
         }
     }
+    return false;
 }
