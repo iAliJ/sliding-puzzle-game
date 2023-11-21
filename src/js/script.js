@@ -10,14 +10,16 @@ const solutionArray = [
     ['6', 6], ['7', 7]
 ];
 
-const solutionObj = [
-    {'0': 0},
-    {'1': 1},
-    {'2': 2},
-    {'3': 3},
-    {'4': 4},
-    {'5': 5},
-    {'6': 6},
+const tilesArray = [
+    {'id': 0, 'position': 0},
+    {'id': 1, 'position': 1},
+    {'id': 2, 'position': 2},
+    {'id': 3, 'position': 3},
+    {'id': 4, 'position': 4},
+    {'id': 5, 'position': 5},
+    {'id': 6, 'position': 6},
+    {'id': 7, 'position': 7},
+    {'id': 'empty', 'position': 8}
 ];
 
 // Array to store positions and adjacent tiles
@@ -34,7 +36,16 @@ let legalMoves=[
 ]
 
 // Index of an empty tile
-let emptyTile = 8;
+let emptyTile = getEmptyTilePosition();
+
+function getEmptyTilePosition() {
+    for(let i = 0; i < tilesArray.length; i++) {
+        if (tilesArray[i].id === 'empty') {
+            return tilesArray[i].position;
+        }
+    }
+    return -1;
+}
 
 // Tiles event listner
 let selectedTile = document.querySelectorAll('.pzTile').forEach(function(tile) {
@@ -59,20 +70,22 @@ function newGame(e) {
     // Start the game
 }
 
+// A function to draw the board UI
 function drawBoard() {
     // shuffle the solution array
     shuffle();
     // Initialize the tiles
     initiateTiles();
-    // assign the array elements to each tile
-    solutionArray.forEach(function(element, tileIndex){
+    // assign the array elements to each tile on the board UI
+    tilesArray.forEach(function(element, tileIndex){
         let currentTile = document.querySelector(`.pzTile[data-currentPosition="${tileIndex}"]`);
-        currentTile.innerText = element[0];
+        currentTile.innerText = element.id;
         currentTile.dataset.currentPosition = tileIndex;
-        currentTile.dataset.tileid = element[0];
+        currentTile.dataset.tileid = element.id;
     });
 }
 
+// Initiate tiles with default values from 1-7
 function initiateTiles() {
     document.querySelectorAll('.pzTile').forEach(function(tile, i){
         tile.dataset.currentposition = i;        
@@ -81,12 +94,12 @@ function initiateTiles() {
 
 // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 function shuffle() {
-    for (let i = solutionArray.length - 1; i > 0; i--) {
-        // Get a randm index, then swap current position with a random elment
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = solutionArray[i];
-        solutionArray[i] = solutionArray[j];
-        solutionArray[j] = temp;
+    for(let i = tilesArray.length - 1; i > 0; i--) {
+        // get a random index within the array length swap the current position
+        let randomIndex = Math.floor(Math.random() * (i + 1));
+        let temp = tilesArray[i];
+        tilesArray[i] = tilesArray[randomIndex];
+        tilesArray[randomIndex] = temp;
     }
 }
 
@@ -130,7 +143,7 @@ function updateTilePosition(id, position) {
 
 function ValidateMove(tileId, currentPosition) {
     // if selected tile has empty tile id return false
-    if(tileId == '8') {
+    if(tileId == 'empty') {
         return false;
     }
     else {
