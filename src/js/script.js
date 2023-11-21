@@ -66,8 +66,6 @@ function setEmptyTilePosition(position) {
     }
 }
 
-
-
 function newGame(e) {
     e.preventDefault();
     // Get all the user settings
