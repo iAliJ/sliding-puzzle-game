@@ -47,6 +47,15 @@ function getEmptyTilePosition() {
     return -1;
 }
 
+function setEmptyTilePosition(position) {
+    for(let i = 0; i < tilesArray.length; i++) {
+        if (tilesArray[i].id === 'empty') {
+            tilesArray[i].position = position;
+            return position;
+        }
+    }
+}
+
 // Tiles event listner
 let selectedTile = document.querySelectorAll('.pzTile').forEach(function(tile) {
     tile.addEventListener('click', function(){
@@ -60,12 +69,12 @@ function newGame(e) {
     let nTiles = document.querySelector('#tiles-number').value;
 
     // Create new canvas based on the settings
+    
+    // reset all variables to default values
+    emptyTile = getEmptyTilePosition();
 
     // draw the board and link each tile to array data
     drawBoard();
-
-    // reset all variables to default values
-    emptyTile = 8;
 
     // Start the game
 }
@@ -82,6 +91,11 @@ function drawBoard() {
         currentTile.innerText = element.id;
         currentTile.dataset.currentPosition = tileIndex;
         currentTile.dataset.tileid = element.id;
+        
+        // If the current tile is empty we need to update the index in the array
+        if(currentTile.dataset.tileid == 'empty') {
+            emptyTile = setEmptyTilePosition(tileIndex);
+        }
     });
 }
 
@@ -124,10 +138,6 @@ function swapTile(tile, tileId, tilePosition) {
     let temp = emptyTile;
     emptyTile = tilePosition;
     tilePosition = temp;
-    console.log(
-        `id: ${tileId}\n
-        new position: ${tilePosition}`
-    );
     // update the solutionarray and index of empty tile
     updateTilePosition(tileId, tilePosition);
     // update the HTML
@@ -137,18 +147,17 @@ function updateTilePosition(id, position) {
     // get the sub array
     // look for the id in the shuffled array
     solutionArray[id][1] = position;
-    console.log(solutionArray[id][1]);
-    console.log(solutionArray);
 }
 
 function ValidateMove(tileId, currentPosition) {
     // if selected tile has empty tile id return false
-    if(tileId == 'empty') {
+    if(tileId === 'empty') {
         return false;
     }
     else {
         // check if position of empty tile is surrounding the selected tile
         let possibleMoves = legalMoves[currentPosition];
+        console.log((emptyTile));
         if(possibleMoves.indexOf(emptyTile) != -1) {
             return true;
         }
