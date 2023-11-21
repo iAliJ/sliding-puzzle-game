@@ -34,18 +34,18 @@ let legalMoves=[
 let emptyTile = getEmptyTilePosition();
 
 function getEmptyTilePosition() {
-    for(let i = 0; i < tilesArraySolution.length; i++) {
-        if (tilesArraySolution[i].id === 'empty') {
-            return tilesArraySolution[i].position;
+    for(let i = 0; i < tilesArray.length; i++) {
+        if (tilesArray[i].id === 'empty') {
+            return tilesArray[i].position;
         }
     }
     return -1;
 }
 
 function setEmptyTilePosition(position) {
-    for(let i = 0; i < tilesArraySolution.length; i++) {
-        if (tilesArraySolution[i].id === 'empty') {
-            tilesArraySolution[i].position = position;
+    for(let i = 0; i < tilesArray.length; i++) {
+        if (tilesArray[i].id === 'empty') {
+            tilesArray[i].position = position;
             return position;
         }
     }
@@ -81,7 +81,7 @@ function drawBoard() {
     // Initialize the tiles
     initiateTiles();
     // assign the array elements to each tile on the board UI
-    tilesArraySolution.forEach(function(element, tileIndex){
+    tilesArray.forEach(function(element, tileIndex){
         let currentTile = document.querySelector(`.pzTile[data-currentPosition="${tileIndex}"]`);
         currentTile.innerText = element.id;
         currentTile.dataset.currentPosition = tileIndex;
@@ -103,13 +103,19 @@ function initiateTiles() {
 
 // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 function shuffle() {
-    for(let i = tilesArraySolution.length - 1; i > 0; i--) {
+    for(let i = tilesArray.length - 1; i > 0; i--) {
         // get a random index within the array length swap the current position
         let randomIndex = Math.floor(Math.random() * (i + 1));
-        let temp = tilesArraySolution[i];
-        tilesArraySolution[i] = tilesArraySolution[randomIndex];
-        tilesArraySolution[randomIndex] = temp;
+        let temp = tilesArray[i];
+        tilesArray[i] = tilesArray[randomIndex];
+        tilesArray[randomIndex] = temp;
     }
+
+    // Update the tilesArray positions
+    tilesArray.forEach(function(tileObj, index) {
+        tileObj.position = index;
+    });
+    console.log(tilesArray);
 }
 
 function moveTile(tile) {
@@ -134,16 +140,29 @@ function swapTile(tile, tileId, tilePosition) {
     let temp = emptyTile;
     emptyTile = setEmptyTilePosition(tilePosition);
     tilePosition = temp;
-    console.log(`selected tile moved to ${tilePosition}`);
+    // console.log(`selected tile moved to ${tilePosition}`);
     // update the current tile with new position
-    updateTilePosition(tile, tilePosition);
+    updateTilePosition(tileId, tilePosition);
     // update the UI
-    
+    updateBoard();
 }
 
-function updateTilePosition(tile, newPosition) {
-    tile.dataset.currentposition = newPosition;
-    tile.innerText = tile.dataset.tileid;
+function updateBoard() {
+    tilesArray.forEach(function(element){
+        let currentTile = document.querySelector(`.pzTile[data-currentPosition="${element.position}"]`);
+        currentTile.innerText = element.id;
+        currentTile.dataset.currentPosition = element.position;
+        currentTile.dataset.tileid = element.id;
+    });
+}
+
+function updateTilePosition(tileId, newPosition) {
+    for(let i = 0; i < tilesArray.length; i++) {
+        if (tilesArray[i].id == tileId) {
+            tilesArray[i].position = newPosition;
+            return newPosition;
+        }
+    }
 }
 
 function ValidateMove(tileId, currentPosition) {
