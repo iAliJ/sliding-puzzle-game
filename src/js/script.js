@@ -2,15 +2,7 @@
 let newGameBtn = document.querySelector('#new-game');
 newGameBtn.addEventListener('click', newGame);
 
-// solution array = [id, correct position]
-// I might switch this to JSON file
-const solutionArray = [
-    ['0', 0], ['1', 1], ['2', 2], 
-    ['3', 3], ['4', 4], ['5', 5], 
-    ['6', 6], ['7', 7]
-];
-
-const tilesArray = [
+let tilesArraySolution = [
     {'id': 0, 'position': 0},
     {'id': 1, 'position': 1},
     {'id': 2, 'position': 2},
@@ -21,6 +13,9 @@ const tilesArray = [
     {'id': 7, 'position': 7},
     {'id': 'empty', 'position': 8}
 ];
+
+// Copy tilesArraySolution to keep track of positions
+let tilesArray = [...tilesArraySolution];
 
 // Array to store positions and adjacent tiles
 let legalMoves=[
@@ -39,18 +34,18 @@ let legalMoves=[
 let emptyTile = getEmptyTilePosition();
 
 function getEmptyTilePosition() {
-    for(let i = 0; i < tilesArray.length; i++) {
-        if (tilesArray[i].id === 'empty') {
-            return tilesArray[i].position;
+    for(let i = 0; i < tilesArraySolution.length; i++) {
+        if (tilesArraySolution[i].id === 'empty') {
+            return tilesArraySolution[i].position;
         }
     }
     return -1;
 }
 
 function setEmptyTilePosition(position) {
-    for(let i = 0; i < tilesArray.length; i++) {
-        if (tilesArray[i].id === 'empty') {
-            tilesArray[i].position = position;
+    for(let i = 0; i < tilesArraySolution.length; i++) {
+        if (tilesArraySolution[i].id === 'empty') {
+            tilesArraySolution[i].position = position;
             return position;
         }
     }
@@ -86,7 +81,7 @@ function drawBoard() {
     // Initialize the tiles
     initiateTiles();
     // assign the array elements to each tile on the board UI
-    tilesArray.forEach(function(element, tileIndex){
+    tilesArraySolution.forEach(function(element, tileIndex){
         let currentTile = document.querySelector(`.pzTile[data-currentPosition="${tileIndex}"]`);
         currentTile.innerText = element.id;
         currentTile.dataset.currentPosition = tileIndex;
@@ -108,12 +103,12 @@ function initiateTiles() {
 
 // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 function shuffle() {
-    for(let i = tilesArray.length - 1; i > 0; i--) {
+    for(let i = tilesArraySolution.length - 1; i > 0; i--) {
         // get a random index within the array length swap the current position
         let randomIndex = Math.floor(Math.random() * (i + 1));
-        let temp = tilesArray[i];
-        tilesArray[i] = tilesArray[randomIndex];
-        tilesArray[randomIndex] = temp;
+        let temp = tilesArraySolution[i];
+        tilesArraySolution[i] = tilesArraySolution[randomIndex];
+        tilesArraySolution[randomIndex] = temp;
     }
 }
 
@@ -135,18 +130,20 @@ function moveTile(tile) {
 
 function swapTile(tile, tileId, tilePosition) {
     // swap the position of empty tile and selected tile by using temp variable
+    // and update the the index of empty tile
     let temp = emptyTile;
-    emptyTile = tilePosition;
+    emptyTile = setEmptyTilePosition(tilePosition);
     tilePosition = temp;
-    // update the solutionarray and index of empty tile
-    updateTilePosition(tileId, tilePosition);
-    // update the HTML
+    console.log(`selected tile moved to ${tilePosition}`);
+    // update the current tile with new position
+    updateTilePosition(tile, tilePosition);
+    // update the UI
+    
 }
 
-function updateTilePosition(id, position) {
-    // get the sub array
-    // look for the id in the shuffled array
-    solutionArray[id][1] = position;
+function updateTilePosition(tile, newPosition) {
+    tile.dataset.currentposition = newPosition;
+    tile.innerText = tile.dataset.tileid;
 }
 
 function ValidateMove(tileId, currentPosition) {
@@ -157,7 +154,6 @@ function ValidateMove(tileId, currentPosition) {
     else {
         // check if position of empty tile is surrounding the selected tile
         let possibleMoves = legalMoves[currentPosition];
-        console.log((emptyTile));
         if(possibleMoves.indexOf(emptyTile) != -1) {
             return true;
         }
