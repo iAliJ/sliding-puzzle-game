@@ -1,8 +1,19 @@
-// Create a new game
+//#region Event listeners
+
+// New game button
 let newGameBtn = document.querySelector('#new-game');
 newGameBtn.addEventListener('click', newGame);
 
-let tilesArraySolution = [
+// Tiles click listner
+let selectedTile = document.querySelectorAll('.pzTile').forEach(function(tile) {
+    tile.addEventListener('click', function(){
+        moveTile(tile);
+    });
+});
+
+//#endregion
+
+tilesArraySolution = [
     {'id': 0, 'position': 0},
     {'id': 1, 'position': 1},
     {'id': 2, 'position': 2},
@@ -15,7 +26,11 @@ let tilesArraySolution = [
 ];
 
 // Copy tilesArraySolution to keep track of positions
-let tilesArray = [...tilesArraySolution];
+let tilesArray = JSON.parse(JSON.stringify(tilesArraySolution));
+
+function resetGameArray() {
+    tilesArray = JSON.parse(JSON.stringify(tilesArraySolution));
+}
 
 // Array to store positions and adjacent tiles
 let legalMoves=[
@@ -30,7 +45,7 @@ let legalMoves=[
     [5,7] //8
 ]
 
-// Index of an empty tile
+// Position of the empty tile
 let emptyTile = getEmptyTilePosition();
 
 function getEmptyTilePosition() {
@@ -45,19 +60,13 @@ function getEmptyTilePosition() {
 function setEmptyTilePosition(position) {
     for(let i = 0; i < tilesArray.length; i++) {
         if (tilesArray[i].id === 'empty') {
-            console.log(`from setEmptyTilePosition: ${typeof position}`);
             tilesArray[i].position = position;
             return position;
         }
     }
 }
 
-// Tiles event listner
-let selectedTile = document.querySelectorAll('.pzTile').forEach(function(tile) {
-    tile.addEventListener('click', function(){
-        moveTile(tile);
-    });
-});
+
 
 function newGame(e) {
     e.preventDefault();
@@ -68,7 +77,7 @@ function newGame(e) {
     
     // reset all variables to default values
     emptyTile = getEmptyTilePosition();
-
+    resetGameArray();
     // draw the board and link each tile to array data
     drawBoard();
 
@@ -78,7 +87,7 @@ function newGame(e) {
 // A function to draw the board UI
 function drawBoard() {
     // shuffle the solution array
-    shuffle();
+    shuffleEasy(1);
     // Initialize the tiles
     initiateTiles();
     // assign the array elements to each tile on the board UI
@@ -118,19 +127,46 @@ function shuffle() {
     });
 }
 
+function shuffleEasy(difficulty) {
+    let steps = 0;
+    for(let i = tilesArray.length - 1; i > 0; i--) {
+        // get a random index within the array length swap the current position
+        let randomIndex = Math.floor(Math.random() * (i + 1));
+        let temp = tilesArray[i];
+        tilesArray[i] = tilesArray[randomIndex];
+        tilesArray[randomIndex] = temp;
+        steps++;
+        if(steps == difficulty){
+            break;
+        }
+    }
+
+    // Update the tilesArray positions
+    tilesArray.forEach(function(tileObj, index) {
+        tileObj.position = index;
+    });
+}
+
 function moveTile(tile) {
     // get the current tile position and id
     const currentPosition = tile.dataset.currentPosition;
     const tileId = tile.dataset.tileid;
     // check if the selected tile is a valid tile by matching the tile id and position with the solution array
     let isMoveValid = ValidateMove(tileId, currentPosition);
-        // if true, move current tile to an empty position by swapping them
+    // if true, move current tile to an empty position by swapping them
     if(isMoveValid) {
-        console.log("Valid move");
         swapTile(tile, tileId, currentPosition);
     }
     else {
         console.log("invalid move");
+    }
+    // Check if the puzzle has been solved
+    let isSolved = checkifPuzzleIsSolved();
+    if(isSolved == true) {
+        alert('We have a winner !');
+    }
+    else {
+        console.log("Not solved yet");
     }
 }
 
@@ -138,10 +174,9 @@ function swapTile(tile, tileId, tilePosition) {
     // swap the position of empty tile and selected tile by using temp variable
     // and update the the index of empty tile
     let temp = emptyTile;
-    console.log(`inside swapTile ${typeof tilePosition}`);
     emptyTile = setEmptyTilePosition(parseInt(tilePosition));
     tilePosition = temp;
-    // console.log(`selected tile moved to ${tilePosition}`);
+
     // update the current tile with new position
     updateTilePosition(tileId, tilePosition);
     // update the UI
@@ -162,8 +197,8 @@ function updateTilePosition(tileId, newPosition) {
         if (tilesArray[i].id == tileId) {
             tilesArray[i].position = newPosition;
             return newPosition;
+            }
         }
-    }
 }
 
 function ValidateMove(tileId, currentPosition) {
@@ -173,20 +208,33 @@ function ValidateMove(tileId, currentPosition) {
         return false;
     }
     else {
-        console.log("Inside else");
         // if the tile is not empty check if position of empty tile is surrounding the selected tile
         // if that is true, it is a valid move
         let possibleMoves = legalMoves[currentPosition];
         emptyTile = getEmptyTilePosition();
-        console.log(typeof emptyTile);
-        // console.log("Possible moves:");
-        // console.log(possibleMoves);
-        // console.log(`position of empty tile: ${emptyTile}`);
-        // console.log(possibleMoves.indexOf(emptyTile));
 
         if(possibleMoves.indexOf(emptyTile) != -1) {
             return true;
         }
     }
     return false;
+}
+
+function checkifPuzzleIsSolved() {
+    /* to check if puzzle is solved, we need to look into solution array
+    and the game array, if all elements ids match the position from the 
+    solution array then the puzzle has been solved.    
+    */
+    let isSolved = true;
+    // first iterate through solution array, and look up for the corresponding element from game array
+    tilesArraySolution.forEach(function(solutionElement) {
+        const result = tilesArray.find(({id}) => id === solutionElement.id);
+        // console.log(`
+        // result.position = ${result.position} solutionElement.position = ${solutionElement.position}
+        // `);
+        if(result.position != solutionElement.position) {
+            isSolved = false;
+        }
+    });
+    return isSolved;
 }
