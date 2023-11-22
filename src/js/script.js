@@ -224,6 +224,7 @@ function giveUp() {
     else {
         p2Score += 50;
         updateInfoUI();
+        console.log(p2Score);
         displayWinner();
         newGame();
     }
@@ -276,7 +277,8 @@ function getPlayerText(player) {
 function updateInfoUI() {
     document.querySelector('#pzCurrentPlayer').innerText = `Current Player: ${getPlayerText(currentPlayer)}`;
     document.querySelector('#pzP1Score').innerText = `Player 1 score: ${p1Score}`;
-    document.querySelector('#pzP2Score').innerText = `Player 2 score: ${p2Score}`;;
+    document.querySelector('#pzP2Score').innerText = `Player 2 score: ${p2Score}`;
+    // TODO... Check why the UI is not being updated after the last round
     document.querySelector('#pzCurrentRound').innerText = `Current Round: ${currentRound}`;
 }
 
