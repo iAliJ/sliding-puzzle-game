@@ -2,7 +2,7 @@
 
 // New game button
 let newGameBtn = document.querySelector('#new-game');
-newGameBtn.addEventListener('click', newGame);
+newGameBtn.addEventListener('click', newGameHandler);
 
 // Tiles click listner
 let selectedTile = document.querySelectorAll('.pzTile').forEach(function(tile) {
@@ -70,22 +70,27 @@ function setEmptyTilePosition(position) {
     }
 }
 
-function newGame(e) {
+function newGameHandler(e) {
     e.preventDefault();
     // Get all the user settings
-    let nTiles = document.querySelector('#tiles-number').value;
+    newGame();
+}
 
-    // Create new canvas based on the settings
-    
-    // reset all variables to default values
-    resetGameArray();
-    resetScores();
-    emptyTile = getEmptyTilePosition();
-    currentPlayer = 'p1';
-    currentRound = 1;
-    // draw the board and update UI
-    updateInfoUI();
-    drawBoard();
+function newGame() {
+        // Get all the user settings
+        let nTiles = document.querySelector('#tiles-number').value;
+
+        // Create new canvas based on the settings
+        
+        // reset all variables to default values
+        resetGameArray();
+        resetScores();
+        emptyTile = getEmptyTilePosition();
+        currentPlayer = 'p1';
+        currentRound = 1;
+        // draw the board and update UI
+        updateInfoUI();
+        drawBoard();
 }
 
 // A function to draw the board UI
@@ -208,6 +213,7 @@ function giveUp() {
     }
     else {
         alert('Game over');
+        newGame();
     }
 }
 
