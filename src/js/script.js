@@ -157,6 +157,9 @@ function moveTile(tile) {
     // if true, move current tile to an empty position by swapping them
     if(isMoveValid) {
         swapTile(tile, tileId, currentPosition);
+        // Add 1 score for each move
+        addScore(1);
+        updateInfoUI();
     }
     else {
         alert("You cant move this tile, silly");
@@ -166,8 +169,6 @@ function moveTile(tile) {
     if(isSolved == true) {
         alert('We have a winner !');
         // add score to player 1 or 2
-        addScore(100);
-        updateInfoUI();
         // start a new round
         newRound();
     }
