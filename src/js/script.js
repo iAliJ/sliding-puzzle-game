@@ -84,8 +84,8 @@ function newGame(e) {
 
 // A function to draw the board UI
 function drawBoard() {
-    // shuffle the solution array
-    shuffleEasy(1);
+    // shuffle the solution array, input is difficulty which is number of shuffes
+    shuffleWithDifficulty(2);
     // Initialize the tiles
     initiateTiles();
     // assign the array elements to each tile on the board UI
@@ -125,7 +125,7 @@ function shuffle() {
     });
 }
 
-function shuffleEasy(difficulty) {
+function shuffleWithDifficulty(difficulty) {
     let steps = 0;
     for(let i = tilesArray.length - 1; i > 0; i--) {
         // get a random index within the array length swap the current position
