@@ -11,7 +11,7 @@ let selectedTile = document.querySelectorAll('.pzTile').forEach(function(tile) {
     });
 });
 
-// Giveup buttons
+// Giveup button
 document.querySelector('#pzGiveupBtn').addEventListener('click', giveUp);
 
 //#endregion
@@ -177,7 +177,7 @@ function moveTile(tile) {
     if(isSolved == true) {
         alert('We have a winner !');
         // add score to player 1 or 2
-        // start a new round if current round is < 3
+        // if game is not over start a new round
         if(!isGameOver()) {
             newRound();
         }
