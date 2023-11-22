@@ -30,6 +30,7 @@ tilesArraySolution = [
 
 // Global variables
 let tilesArray, p1Score, p2Score, currentPlayer, currentRound, emptyTile;
+const maxRound = 2;
 
 function resetGameArray() {
     tilesArray = copyArray(tilesArraySolution);
@@ -188,8 +189,7 @@ function moveTile(tile) {
             newRound();
         }
         else {
-            let winner = decideWinner(); // Check for the winner
-            alert(`${currentPlayer} wins!`);
+            displayWinner();
         }
     }
     else {
@@ -197,8 +197,12 @@ function moveTile(tile) {
     }
 }
 
-function decideWinner() {
-    // The winner is whoever has less score/moves
+function displayWinner() {
+    alert(`${getPlayerText(getWinner())} wins!`);
+}
+
+function getWinner() {
+    // The winner is player with least score/moves
     if(p1Score > p2Score) {
         return 'p2';
     }
@@ -218,7 +222,9 @@ function giveUp() {
         newRound();
     }
     else {
-        alert('Game over');
+        p2Score += 50;
+        updateInfoUI();
+        displayWinner();
         newGame();
     }
 }
@@ -242,7 +248,7 @@ function newRound() {
 // Check if the game is over
 function isGameOver() {
     // the game is over when 3 rounds have been played and player 2 got his turn completed
-    if(currentRound == 3 && currentPlayer == 'p2') {
+    if(currentRound == maxRound && currentPlayer == 'p2') {
         return true;
     }
     return false;
@@ -258,15 +264,17 @@ function addScore(score) {
     }
 }
 
-function getCurrentPlayerText() {
-    if(currentPlayer == 'p1') {
+function getPlayerText(player) {
+    if(player == 'p1') {
         return 'Player 1';
     }
-    return 'Player 2';
+    else {
+        return 'Player 2'
+    }
 }
 
 function updateInfoUI() {
-    document.querySelector('#pzCurrentPlayer').innerText = `Current Player: ${getCurrentPlayerText()}`;
+    document.querySelector('#pzCurrentPlayer').innerText = `Current Player: ${getPlayerText(currentPlayer)}`;
     document.querySelector('#pzP1Score').innerText = `Player 1 score: ${p1Score}`;
     document.querySelector('#pzP2Score').innerText = `Player 2 score: ${p2Score}`;;
     document.querySelector('#pzCurrentRound').innerText = `Current Round: ${currentRound}`;
