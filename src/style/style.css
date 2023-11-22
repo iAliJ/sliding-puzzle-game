@@ -35,8 +35,16 @@ body {
     max-width: 150px;
     background-color: var(--secondary-color);
     color: var(--dark-text);
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+    font-weight: bold;
     aspect-ratio: 1;
+}
+
+.pzTile:hover {
+    cursor: pointer;
 }
 
 .pzGameTiles .row {
