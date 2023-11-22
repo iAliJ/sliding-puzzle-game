@@ -210,7 +210,6 @@ function newRound() {
     resetGameArray();
     emptyTile = getEmptyTilePosition();
     drawBoard();
-    updateInfoUI();
     // change the current player
     if(currentPlayer === 'p1') {
         currentPlayer = 'p2';
@@ -218,6 +217,7 @@ function newRound() {
     else {
         currentPlayer = 'p1';
     }
+    updateInfoUI();
     currentRound++;
 }
 
@@ -232,7 +232,15 @@ function addScore(score) {
     }
 }
 
+function getCurrentPlayerText() {
+    if(currentPlayer == 'p1') {
+        return 'Player 1';
+    }
+    return 'Player 2';
+}
+
 function updateInfoUI() {
+    document.querySelector('#pzCurrentPlayer').innerText = `Current Player: ${getCurrentPlayerText()}`;
     document.querySelector('#pzP1Score').innerText = `Player 1 score: ${p1Score}`;
     document.querySelector('#pzP2Score').innerText = `Player 2 score: ${p2Score}`;;
     document.querySelector('#pzCurrentRound').innerText = `Current Round: ${currentRound}`;
