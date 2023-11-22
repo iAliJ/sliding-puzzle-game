@@ -173,7 +173,7 @@ function moveTile(tile) {
         alert('We have a winner !');
         // add score to player 1 or 2
         // start a new round if current round is < 3
-        if(currentRound < 3) {
+        if(!isGameOver()) {
             newRound();
         }
         else {
@@ -196,14 +196,19 @@ function decideWinner() {
 
 function giveUp() {
     // Add penalty points to the current player
-    if(currentPlayer == 'p1') {
-        p1Score += 50;
+    if(!isGameOver()) {
+        if(currentPlayer == 'p1') {
+            p1Score += 50;
+        }
+        else {
+            p2Score += 50;
+        }
+        updateInfoUI();
+        newRound();
     }
     else {
-        p2Score += 50;
+        alert('Game over');
     }
-    updateInfoUI();
-    newRound();
 }
 
 function newRound() {
@@ -222,10 +227,18 @@ function newRound() {
     updateInfoUI();
 }
 
+// Check if the game is over
+function isGameOver() {
+    // the game is over when 3 rounds have been played and player 2 got his turn completed
+    if(currentRound == 3 && currentPlayer == 'p2') {
+        return true;
+    }
+    return false;
+}
+
 function addScore(score) {
     // add score to player 1 or player 2 based on a the currentPlayer condition
     if(currentPlayer === 'p1') {
-        console.log('adding score to p1...');
         p1Score += score;
     }
     else {
