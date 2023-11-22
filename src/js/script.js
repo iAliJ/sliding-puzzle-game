@@ -215,10 +215,11 @@ function newRound() {
         currentPlayer = 'p2';
     }
     else {
+        // if player 2 had his turn it means we move to the next round
+        currentRound++;
         currentPlayer = 'p1';
     }
     updateInfoUI();
-    currentRound++;
 }
 
 function addScore(score) {
