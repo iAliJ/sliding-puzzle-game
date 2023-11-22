@@ -102,7 +102,12 @@ function drawBoard() {
     // assign the array elements to each tile on the board UI
     tilesArray.forEach(function(element, tileIndex){
         let currentTile = document.querySelector(`.pzTile[data-currentPosition="${tileIndex}"]`);
-        currentTile.innerText = element.id;
+        if(element.id == 'empty') {
+            currentTile.innerText = '';
+        }
+        else {
+            currentTile.innerText = element.id;
+        }
         currentTile.dataset.currentPosition = tileIndex;
         currentTile.dataset.tileid = element.id;
         
@@ -156,6 +161,7 @@ function shuffleWithDifficulty(difficulty) {
     });
 }
 
+// This function probably needs a refactor
 function moveTile(tile) {
     // get the current tile position and id
     const currentPosition = tile.dataset.currentPosition;
@@ -287,7 +293,12 @@ function swapTile(tile, tileId, tilePosition) {
 function updateBoard() {
     tilesArray.forEach(function(element){
         let currentTile = document.querySelector(`.pzTile[data-currentPosition="${element.position}"]`);
-        currentTile.innerText = element.id;
+        if(element.id == 'empty') {
+            currentTile.innerText = '';
+        }
+        else {
+            currentTile.innerText = element.id;
+        }
         currentTile.dataset.currentPosition = element.position;
         currentTile.dataset.tileid = element.id;
     });
