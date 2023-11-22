@@ -14,22 +14,22 @@ let selectedTile = document.querySelectorAll('.pzTile').forEach(function(tile) {
 //#endregion
 
 tilesArraySolution = [
-    {'id': 0, 'position': 0},
-    {'id': 1, 'position': 1},
-    {'id': 2, 'position': 2},
-    {'id': 3, 'position': 3},
-    {'id': 4, 'position': 4},
-    {'id': 5, 'position': 5},
-    {'id': 6, 'position': 6},
-    {'id': 7, 'position': 7},
+    {'id': 1, 'position': 0},
+    {'id': 2, 'position': 1},
+    {'id': 3, 'position': 2},
+    {'id': 4, 'position': 3},
+    {'id': 5, 'position': 4},
+    {'id': 6, 'position': 5},
+    {'id': 7, 'position': 6},
+    {'id': 8, 'position': 7},
     {'id': 'empty', 'position': 8}
 ];
 
-// Copy tilesArraySolution to keep track of positions
-let tilesArray = JSON.parse(JSON.stringify(tilesArraySolution));
+// Global variables
+let tilesArray, p1Score, p2Score, currentPlayer, currentRound, emptyTile;
 
 function resetGameArray() {
-    tilesArray = JSON.parse(JSON.stringify(tilesArraySolution));
+    tilesArray = copyArray(tilesArraySolution);
 }
 
 // Array to store positions and adjacent tiles
@@ -45,8 +45,9 @@ let legalMoves=[
     [5,7] //8
 ]
 
-// Position of the empty tile
-let emptyTile = getEmptyTilePosition();
+function copyArray(arr) {
+    return JSON.parse(JSON.stringify(arr));
+}
 
 function getEmptyTilePosition() {
     for(let i = 0; i < tilesArray.length; i++) {
@@ -74,18 +75,20 @@ function newGame(e) {
     // Create new canvas based on the settings
     
     // reset all variables to default values
-    emptyTile = getEmptyTilePosition();
     resetGameArray();
-    // draw the board and link each tile to array data
+    resetScores();
+    emptyTile = getEmptyTilePosition();
+    currentPlayer = 'p1';
+    currentRound = 1;
+    // draw the board and update UI
+    updateInfoUI();
     drawBoard();
-
-    // Start the game
 }
 
 // A function to draw the board UI
 function drawBoard() {
     // shuffle the solution array, input is difficulty which is number of shuffes
-    shuffleWithDifficulty(2);
+    shuffleWithDifficulty(4);
     // Initialize the tiles
     initiateTiles();
     // assign the array elements to each tile on the board UI
@@ -156,16 +159,58 @@ function moveTile(tile) {
         swapTile(tile, tileId, currentPosition);
     }
     else {
-        console.log("invalid move");
+        alert("You cant move this tile, silly");
     }
     // Check if the puzzle has been solved
     let isSolved = checkifPuzzleIsSolved();
     if(isSolved == true) {
         alert('We have a winner !');
+        // add score to player 1 or 2
+        addScore(100);
+        updateInfoUI();
+        // start a new round
+        newRound();
     }
     else {
         console.log("Not solved yet");
     }
+}
+
+function newRound() {
+    resetGameArray();
+    emptyTile = getEmptyTilePosition();
+    drawBoard();
+    updateInfoUI();
+    // change the current player
+    if(currentPlayer === 'p1') {
+        currentPlayer = 'p2';
+    }
+    else {
+        currentPlayer = 'p1';
+    }
+    currentRound++;
+}
+
+function addScore(score) {
+    // add score to player 1 or player 2 based on a the currentPlayer condition
+    if(currentPlayer === 'p1') {
+        console.log('adding score to p1...');
+        p1Score += score;
+    }
+    else {
+        p2Score += score;
+    }
+}
+
+function updateInfoUI() {
+    document.querySelector('#pzP1Score').innerText = `Player 1 score: ${p1Score}`;
+    document.querySelector('#pzP2Score').innerText = `Player 2 score: ${p2Score}`;;
+    document.querySelector('#pzCurrentRound').innerText = `Current Round: ${currentRound}`;
+}
+
+function resetScores() {
+    p1Score = 0;
+    p2Score = 0;
 }
 
 function swapTile(tile, tileId, tilePosition) {
