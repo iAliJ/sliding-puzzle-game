@@ -11,6 +11,9 @@ let selectedTile = document.querySelectorAll('.pzTile').forEach(function(tile) {
     });
 });
 
+// Giveup buttons
+document.querySelector('#pzGiveupBtn').addEventListener('click', giveUp);
+
 //#endregion
 
 tilesArraySolution = [
@@ -169,12 +172,38 @@ function moveTile(tile) {
     if(isSolved == true) {
         alert('We have a winner !');
         // add score to player 1 or 2
-        // start a new round
-        newRound();
+        // start a new round if current round is < 3
+        if(currentRound < 3) {
+            newRound();
+        }
+        else {
+            let winner = decideWinner(); // Check for the winner
+            alert(`${currentPlayer} wins!`);
+        }
     }
     else {
-        console.log("Not solved yet");
+        // Nothing happens so far   
     }
+}
+
+function decideWinner() {
+    // The winner is whoever has less score/moves
+    if(p1Score > p2Score) {
+        return 'p2';
+    }
+    return 'p1';
+}
+
+function giveUp() {
+    // Add penalty points to the current player
+    if(currentPlayer == 'p1') {
+        p1Score += 50;
+    }
+    else {
+        p2Score += 50;
+    }
+    updateInfoUI();
+    newRound();
 }
 
 function newRound() {
@@ -273,9 +302,6 @@ function checkifPuzzleIsSolved() {
     // first iterate through solution array, and look up for the corresponding element from game array
     tilesArraySolution.forEach(function(solutionElement) {
         const result = tilesArray.find(({id}) => id === solutionElement.id);
-        // console.log(`
-        // result.position = ${result.position} solutionElement.position = ${solutionElement.position}
-        // `);
         if(result.position != solutionElement.position) {
             isSolved = false;
         }
