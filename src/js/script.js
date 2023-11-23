@@ -30,7 +30,7 @@ tilesArraySolution = [
 
 // Global variables
 let tilesArray, p1Score, p2Score, currentPlayer, currentRound, emptyTile;
-const maxRound = 2;
+let maxRound = 2;
 
 // Number of shuffles to control the random position of the tiles
 let nShuffles = 3;
@@ -82,7 +82,8 @@ function newGameHandler(e) {
 
 function newGame() {
         // Get all the user settings
-        let nShuffles = document.querySelector('#pzNumberOfShuffles').value;
+        nShuffles = document.querySelector('#pzNumberOfShuffles').value;
+        maxRound = parseInt(document.querySelector('#roundsSelector').value);
         // Create new canvas based on the settings
         
         // reset all variables to default values
