@@ -34,7 +34,8 @@ body {
     border-radius: 20px;
     max-width: 150px;
     background-color: var(--secondary-color);
-    color: var(--dark-text);
+    background-size: cover;
+    color: var(--light-text);
     display: flex;
     justify-content: center;
     align-items: center;

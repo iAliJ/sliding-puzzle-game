@@ -113,9 +113,11 @@ function drawBoard() {
         let currentTile = document.querySelector(`.pzTile[data-currentPosition="${tileIndex}"]`);
         if(element.id == 'empty') {
             currentTile.innerText = '';
+            currentTile.style.backgroundImage = '';
         }
         else {
             currentTile.innerText = element.id;
+            currentTile.style.backgroundImage = `url(../images/puzzle01/${tileIndex}.jpg)`;
         }
         currentTile.dataset.currentPosition = tileIndex;
         currentTile.dataset.tileid = element.id;
@@ -190,7 +192,7 @@ function moveTile(tile) {
     // Check if the puzzle has been solved
     let isSolved = checkifPuzzleIsSolved();
     if(isSolved == true) {
-        alert('We have a winner !');
+        console.log('puzzle solved!');
         // add score to player 1 or 2
         // if game is not over start a new round
         if(!isGameOver()) {
@@ -315,9 +317,11 @@ function updateBoard() {
         let currentTile = document.querySelector(`.pzTile[data-currentPosition="${element.position}"]`);
         if(element.id == 'empty') {
             currentTile.innerText = '';
+            currentTile.style.backgroundImage = ``;
         }
         else {
             currentTile.innerText = element.id;
+            currentTile.style.backgroundImage = `url(../images/puzzle01/${element.position}.jpg)`;
         }
         currentTile.dataset.currentPosition = element.position;
         currentTile.dataset.tileid = element.id;
