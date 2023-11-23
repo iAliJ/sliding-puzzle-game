@@ -82,9 +82,10 @@ function newGameHandler(e) {
 }
 
 function newGame() {
-        // Get all the user settings
+        // Get user settings
         nShuffles = document.querySelector('#pzNumberOfShuffles').value;
         maxRound = parseInt(document.querySelector('#roundsSelector').value);
+        puzzleId = (document.querySelector('#puzzleSelector').value);
         // Create new canvas based on the settings
         
         // reset all variables to default values
@@ -93,7 +94,7 @@ function newGame() {
 
         // reset UI Elements
         document.querySelector('#pzWinner').innerText = ``;
-        document.querySelector('#pzGiveupBtn').toggleAttribute('disabled');
+        document.querySelector('#pzGiveupBtn').removeAttribute('disabled');
 
         emptyTile = getEmptyTilePosition();
         currentPlayer = 'p1';
@@ -188,7 +189,7 @@ function moveTile(tile) {
         updateInfoUI();
     }
     else {
-        alert("You cant move this tile, silly");
+        // alert("You cant move this tile, silly");
     }
     // Check if the puzzle has been solved
     let isSolved = checkifPuzzleIsSolved();

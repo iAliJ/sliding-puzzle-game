@@ -16,6 +16,10 @@ body {
     color: var(--light-text);
 }
 
+select {
+    margin-bottom: 10px;
+}
+
 .bd-colid {
     border: 1px black solid;
 }
