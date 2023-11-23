@@ -32,6 +32,9 @@ tilesArraySolution = [
 let tilesArray, p1Score, p2Score, currentPlayer, currentRound, emptyTile;
 const maxRound = 2;
 
+// Number of shuffles to control the random position of the tiles
+let nShuffles = 3;
+
 function resetGameArray() {
     tilesArray = copyArray(tilesArraySolution);
 }
@@ -79,8 +82,7 @@ function newGameHandler(e) {
 
 function newGame() {
         // Get all the user settings
-        let nTiles = document.querySelector('#tiles-number').value;
-
+        let nShuffles = document.querySelector('#pzNumberOfShuffles').value;
         // Create new canvas based on the settings
         
         // reset all variables to default values
@@ -90,7 +92,7 @@ function newGame() {
         // reset UI Elements
         document.querySelector('#pzWinner').innerText = ``;
         document.querySelector('#pzGiveupBtn').toggleAttribute('disabled');
-        
+
         emptyTile = getEmptyTilePosition();
         currentPlayer = 'p1';
         currentRound = 1;
@@ -102,7 +104,7 @@ function newGame() {
 // A function to draw the board UI
 function drawBoard() {
     // shuffle the solution array, input is difficulty which is number of shuffes
-    shuffleWithDifficulty(4);
+    shuffleWithDifficulty(nShuffles);
     // Initialize the tiles
     initiateTiles();
     // assign the array elements to each tile on the board UI
