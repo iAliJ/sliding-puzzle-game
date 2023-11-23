@@ -31,6 +31,7 @@ tilesArraySolution = [
 // Global variables
 let tilesArray, p1Score, p2Score, currentPlayer, currentRound, emptyTile;
 let maxRound = 2;
+let puzzleId = '02';
 
 // Number of shuffles to control the random position of the tiles
 let nShuffles = 3;
@@ -117,7 +118,7 @@ function drawBoard() {
         }
         else {
             currentTile.innerText = element.id;
-            currentTile.style.backgroundImage = `url(../images/puzzle01/${element.id - 1}.jpg)`;
+            currentTile.style.backgroundImage = `url(../images/puzzle${puzzleId}/${element.id - 1}.jpg)`;
         }
         currentTile.dataset.currentPosition = tileIndex;
         currentTile.dataset.tileid = element.id;
@@ -321,7 +322,7 @@ function updateBoard() {
         }
         else {
             currentTile.innerText = element.id;
-            currentTile.style.backgroundImage = `url(../images/puzzle01/${element.id - 1}.jpg)`;
+            currentTile.style.backgroundImage = `url(../images/puzzle${puzzleId}/${element.id - 1}.jpg)`;
         }
         currentTile.dataset.currentPosition = element.position;
         currentTile.dataset.tileid = element.id;
