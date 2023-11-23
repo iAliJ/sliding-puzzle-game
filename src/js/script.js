@@ -86,6 +86,7 @@ function newGame() {
         // reset all variables to default values
         resetGameArray();
         resetScores();
+        document.querySelector('#pzWinner').innerText = ``;
         emptyTile = getEmptyTilePosition();
         currentPlayer = 'p1';
         currentRound = 1;
@@ -198,7 +199,7 @@ function moveTile(tile) {
 }
 
 function displayWinner() {
-    alert(`${getPlayerText(getWinner())} wins!`);
+    document.querySelector('#pzWinner').innerText = `${getPlayerText(getWinner())} wins!`;
 }
 
 function getWinner() {
@@ -224,7 +225,7 @@ function giveUp() {
     else {
         p2Score += 50;
         updateInfoUI();
-        console.log(p2Score);
+        
         displayWinner();
         newGame();
     }
@@ -277,6 +278,7 @@ function getPlayerText(player) {
 function updateInfoUI() {
     document.querySelector('#pzCurrentPlayer').innerText = `Current Player: ${getPlayerText(currentPlayer)}`;
     document.querySelector('#pzP1Score').innerText = `Player 1 score: ${p1Score}`;
+    console.log(`round: ${currentRound} score:${p2Score}`);
     document.querySelector('#pzP2Score').innerText = `Player 2 score: ${p2Score}`;
     // TODO... Check why the UI is not being updated after the last round
     document.querySelector('#pzCurrentRound').innerText = `Current Round: ${currentRound}`;
