@@ -117,7 +117,7 @@ function drawBoard() {
         }
         else {
             currentTile.innerText = element.id;
-            currentTile.style.backgroundImage = `url(../images/puzzle01/${tileIndex}.jpg)`;
+            currentTile.style.backgroundImage = `url(../images/puzzle01/${element.id - 1}.jpg)`;
         }
         currentTile.dataset.currentPosition = tileIndex;
         currentTile.dataset.tileid = element.id;
@@ -321,7 +321,7 @@ function updateBoard() {
         }
         else {
             currentTile.innerText = element.id;
-            currentTile.style.backgroundImage = `url(../images/puzzle01/${element.position}.jpg)`;
+            currentTile.style.backgroundImage = `url(../images/puzzle01/${element.id - 1}.jpg)`;
         }
         currentTile.dataset.currentPosition = element.position;
         currentTile.dataset.tileid = element.id;
