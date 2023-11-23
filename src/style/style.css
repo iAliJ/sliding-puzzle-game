@@ -29,7 +29,7 @@ body {
 }
 
 .pzTile {
-    margin: 5px;
+    margin: 1px;
     border: 1px black solid;
     border-radius: 20px;
     max-width: 150px;
