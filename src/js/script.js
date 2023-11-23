@@ -1,7 +1,7 @@
 //#region Event listeners
 
 // New game button
-let newGameBtn = document.querySelector('#new-game');
+let newGameBtn = document.querySelector('#pzNewGame');
 newGameBtn.addEventListener('click', newGameHandler);
 
 // Tiles click listner
@@ -86,7 +86,11 @@ function newGame() {
         // reset all variables to default values
         resetGameArray();
         resetScores();
+
+        // reset UI Elements
         document.querySelector('#pzWinner').innerText = ``;
+        document.querySelector('#pzGiveupBtn').toggleAttribute('disabled');
+        
         emptyTile = getEmptyTilePosition();
         currentPlayer = 'p1';
         currentRound = 1;
@@ -225,9 +229,10 @@ function giveUp() {
     else {
         p2Score += 50;
         updateInfoUI();
-        
         displayWinner();
-        newGame();
+        // Disable the giveup button
+        document.querySelector('#pzGiveupBtn').toggleAttribute('disabled');
+        // newGame();
     }
 }
 
