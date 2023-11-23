@@ -14,6 +14,12 @@ let selectedTile = document.querySelectorAll('.pzTile').forEach(function(tile) {
 // Giveup button
 document.querySelector('#pzGiveupBtn').addEventListener('click', giveUp);
 
+// free move button, no boundry restrictions
+document.querySelector('#pzFreeMove').addEventListener('click', function() {
+    freeMove = true;
+    this.toggleAttribute('disabled');
+})
+
 //#endregion
 
 tilesArraySolution = [
@@ -32,6 +38,7 @@ tilesArraySolution = [
 let tilesArray, p1Score, p2Score, currentPlayer, currentRound, emptyTile;
 let maxRound = 2;
 let puzzleId = '02';
+let freeMove = false;
 
 // Number of shuffles to control the random position of the tiles
 let nShuffles = 3;
@@ -95,10 +102,12 @@ function newGame() {
         // reset UI Elements
         document.querySelector('#pzWinner').innerText = ``;
         document.querySelector('#pzGiveupBtn').removeAttribute('disabled');
+        document.querySelector('#pzFreeMove').removeAttribute('disabled');
 
         emptyTile = getEmptyTilePosition();
         currentPlayer = 'p1';
         currentRound = 1;
+        freeMove = true;
         // draw the board and update UI
         updateInfoUI();
         drawBoard();
@@ -247,6 +256,9 @@ function newRound() {
     resetGameArray();
     emptyTile = getEmptyTilePosition();
     drawBoard();
+    // enable free move for current player
+    freeMove = true;
+    document.querySelector('#pzFreeMove').removeAttribute('disabled');
     // change the current player
     if(currentPlayer === 'p1') {
         currentPlayer = 'p2';
@@ -340,6 +352,10 @@ function updateTilePosition(tileId, newPosition) {
 }
 
 function ValidateMove(tileId, currentPosition) {
+    if(freeMove) {
+        freeMove = false;
+        return true;
+    }
     // if selected tile has empty tile id return false
     if(tileId === 'empty') {
         console.log('cannot move an empty tile');
