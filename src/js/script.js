@@ -110,7 +110,26 @@ function newGame() {
         freeMove = false;
         // draw the board and update UI
         updateInfoUI();
+        colorSettings();
         drawBoard();
+}
+
+function colorSettings() {
+    // change the colors if player chose pictures as their puzzle
+    if(puzzleId !== '00') {
+        document.querySelectorAll('.pzTile').forEach(function(tile){
+            tile.style.backgroundColor = 'var(--primary-color)';
+            tile.style.border = '0px';
+            tile.style.color = 'var(--light-text)';
+        });
+    }
+    else {
+        document.querySelectorAll('.pzTile').forEach(function(tile){
+            tile.style.backgroundColor = 'var(--secondary-color)';
+            tile.style.border = '1px';
+            tile.style.color = 'var(--dark-text)';
+        });
+    }
 }
 
 // A function to draw the board UI
