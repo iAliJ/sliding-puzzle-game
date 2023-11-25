@@ -231,6 +231,7 @@ function getWinner() {
 }
 
 function giveUp() {
+    // check first if the game is not over yet
     // Add penalty points to the current player
     if(!isGameOver()) {
         if(currentPlayer == 'p1') {
@@ -242,12 +243,14 @@ function giveUp() {
         updateInfoUI();
         newRound();
     }
+    // If game is over, add penalty to player 2 and announce the winner
     else {
         p2Score += 50;
         updateInfoUI();
         displayWinner();
-        // Disable the giveup button
-        document.querySelector('#pzGiveupBtn').add('disabled');
+        // Disable the giveup button and the free move button
+        document.querySelector('#pzGiveupBtn').toggleAttribute('disabled');
+        document.querySelector('#pzFreeMove').toggleAttribute('disabled');
         // newGame();
     }
 }
