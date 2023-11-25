@@ -203,7 +203,7 @@ function moveTile(tile) {
     // Check if the puzzle has been solved
     let isSolved = checkifPuzzleIsSolved();
     if(isSolved == true) {
-        console.log('puzzle solved!');
+        alert(`good job ${getPlayerText()} for solving the puzzle!`);
         // add score to player 1 or 2
         // if game is not over start a new round
         if(!isGameOver()) {
