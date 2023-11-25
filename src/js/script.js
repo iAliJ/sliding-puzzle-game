@@ -107,7 +107,7 @@ function newGame() {
         emptyTile = getEmptyTilePosition();
         currentPlayer = 'p1';
         currentRound = 1;
-        freeMove = true;
+        freeMove = false;
         // draw the board and update UI
         updateInfoUI();
         drawBoard();
@@ -257,7 +257,7 @@ function newRound() {
     emptyTile = getEmptyTilePosition();
     drawBoard();
     // enable free move for current player
-    freeMove = true;
+    freeMove = false;
     document.querySelector('#pzFreeMove').removeAttribute('disabled');
     // change the current player
     if(currentPlayer === 'p1') {
