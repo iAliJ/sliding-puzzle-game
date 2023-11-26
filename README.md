@@ -26,4 +26,4 @@ Difficulty is controlled by number of tiles to be shuffled.
 * Player with lowest score wins the game 
 
 ## Wirefame
-![game wireframe](/wireframe/wireframe.png)
+![game wireframe](/wireframe/slidingPuzzleWireframe.png)
