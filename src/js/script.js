@@ -60,6 +60,7 @@ let legalMoves=[
     [5,7] //8
 ]
 
+// make a copy of the solution array as the game array
 function copyArray(arr) {
     return JSON.parse(JSON.stringify(arr));
 }
@@ -73,6 +74,7 @@ function getEmptyTilePosition() {
     return -1;
 }
 
+// Obselete use getEmptyTilePosition() instead
 function setEmptyTilePosition(position) {
     for(let i = 0; i < tilesArray.length; i++) {
         if (tilesArray[i].id === 'empty') {
@@ -104,11 +106,12 @@ function newGame() {
         document.querySelector('#pzGiveupBtn').removeAttribute('disabled');
         document.querySelector('#pzFreeMove').removeAttribute('disabled');
 
+        // reset game elements
         emptyTile = getEmptyTilePosition();
         currentPlayer = 'p1';
         currentRound = 1;
         freeMove = false;
-        // draw the board and update UI
+        // draw the board and update UI based on the settings
         updateInfoUI();
         colorSettings();
         drawBoard();
@@ -140,6 +143,7 @@ function drawBoard() {
     initiateTiles();
     // assign the array elements to each tile on the board UI
     tilesArray.forEach(function(element, tileIndex){
+        // if the tile is empty, make sure to not assign any text or image
         let currentTile = document.querySelector(`.pzTile[data-currentPosition="${tileIndex}"]`);
         if(element.id == 'empty') {
             currentTile.innerText = '';
@@ -149,6 +153,7 @@ function drawBoard() {
             currentTile.innerText = element.id;
             currentTile.style.backgroundImage = `url(../images/puzzle${puzzleId}/${element.id - 1}.jpg)`;
         }
+        // update the position of each tile based on the current game array date
         currentTile.dataset.currentPosition = tileIndex;
         currentTile.dataset.tileid = element.id;
         
@@ -295,7 +300,7 @@ function newRound() {
 
 // Check if the game is over
 function isGameOver() {
-    // the game is over when 3 rounds have been played and player 2 got his turn completed
+    // the game is over when 3-2 (maxround) rounds have been played and player 2 got his turn completed
     if(currentRound == maxRound && currentPlayer == 'p2') {
         return true;
     }
@@ -312,6 +317,7 @@ function addScore(score) {
     }
 }
 
+// convert player initiates to readable text
 function getPlayerText(player) {
     if(player == 'p1') {
         return 'Player 1';
@@ -322,11 +328,11 @@ function getPlayerText(player) {
 }
 
 function updateInfoUI() {
+    // change the text of info related to player score and round info
     document.querySelector('#pzCurrentPlayer').innerText = `Current Player: ${getPlayerText(currentPlayer)}`;
     document.querySelector('#pzP1Score').innerText = `Player 1 score: ${p1Score}`;
-    console.log(`round: ${currentRound} score:${p2Score}`);
+    // console.log(`round: ${currentRound} score:${p2Score}`);
     document.querySelector('#pzP2Score').innerText = `Player 2 score: ${p2Score}`;
-    // TODO... Check why the UI is not being updated after the last round
     document.querySelector('#pzCurrentRound').innerText = `Current Round: ${currentRound}`;
 }
 
@@ -380,7 +386,7 @@ function ValidateMove(tileId, currentPosition) {
     }
     // if selected tile has empty tile id return false
     if(tileId === 'empty') {
-        console.log('cannot move an empty tile');
+        // console.log('cannot move an empty tile');
         return false;
     }
     else {
