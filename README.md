@@ -3,9 +3,9 @@ A sliding puzzle game for SEI program
 
 ## The game flow
 * The game played as player vs player scoring system
-* the player can select number of shuffles and type of the pizzle
-* The user needs to click on image to slide it in an adjacent empty tile
-* The players takes turns into playing
+* The player can select number of shuffles and type of the puzzle
+* The user needs to click on image to slide it to an adjacent empty tile
+* The players takes turns after each round
 * Lowest score after selected rounds wins the match
 
 ## Difficulty
