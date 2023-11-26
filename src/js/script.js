@@ -114,7 +114,16 @@ function newGame() {
         // draw the board and update UI based on the settings
         updateInfoUI();
         colorSettings();
+        loadImage();
         drawBoard();
+}
+
+function loadImage() {
+    console.log('loading image');
+    document.querySelector('#puzzleImg').setAttribute('src', `../images/puzzle${puzzleId}/puzzle${puzzleId}.jpg`);
+    if(puzzleId == '00') {
+        document.querySelector('#puzzleImg').setAttribute('alt', 'You dont need preview for this :)');
+    }
 }
 
 function colorSettings() {
